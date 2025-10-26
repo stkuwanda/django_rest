@@ -6,10 +6,11 @@ from .serializer import UserSerializer
 
  
 @api_view(['GET'])
-def get_user(request): 
-  serializer = UserSerializer({"name":"Michal-nav", "age": 0}) # create a UserSerializer instance with sample data
-  return Response(serializer.data) # return the serialized data as a response
-
+def get_users(request): 
+  users = User.objects.all()[:10] # retrieve 10 users
+  serializer = UserSerializer(users, many=True) # serialize the users which can be a list (many=true)
+  return Response(serializer.data)
+ 
 @api_view(['POST'])
 def create_user(request): 
   serializer = UserSerializer(data=request.data) # create a UserSerializer instance with the data from the request
